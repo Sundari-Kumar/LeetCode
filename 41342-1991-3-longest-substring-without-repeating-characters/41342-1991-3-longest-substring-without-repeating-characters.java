@@ -1,15 +1,14 @@
-class Solution {
+public class Solution {
     public int lengthOfLongestSubstring(String s) {
-     int i=0,maxlen=0;
-     Set<Character> substring=new HashSet<>();
-     for(int j=0;j<s.length();j++){
-        while(substring.contains(s.charAt(j))){
-            substring.remove(s.charAt(i++));
-            
+        int[] lastSeen = new int[128]; // Stores last seen index of each character
+        int i = 0, maxLength = 0; // Left pointer (i), max substring length
+
+        for (int j = 0; j < s.length(); j++) { // j is the right pointer
+            i = Math.max(lastSeen[s.charAt(j)], i); // Move left pointer if repeated character found
+            maxLength = Math.max(maxLength, j - i + 1); // Update max length
+            lastSeen[s.charAt(j)] = j + 1; // Store the next position of the character
         }
-        substring.add(s.charAt(j));
-        maxlen=Math.max(maxlen,j-i+1);
-     } 
-     return maxlen;  
+        return maxLength;
     }
+
 }
